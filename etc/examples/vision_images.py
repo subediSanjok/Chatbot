@@ -6,7 +6,7 @@ from g4f.client import Client
 client = Client()
 
 # Processing remote image
-remote_image = requests.get("https://raw.githubusercontent.com/xtekky/gpt4free/refs/heads/main/docs/images/cat.jpeg", stream=True).content
+remote_image = requests.get("https://raw.githubusercontent.com/subediSanjok/gpt4free/refs/heads/main/docs/images/cat.jpeg", stream=True).content
 response_remote = client.chat.completions.create(
     model=g4f.models.default_vision,
     messages=[

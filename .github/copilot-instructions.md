@@ -8,7 +8,7 @@ Always reference these instructions first and fallback to search or bash command
 
 ### Bootstrap and Install Dependencies
 - Install Python 3.10+ (3.12 recommended): Project requires Python 3.10 or higher
-- Clone repository: `git clone https://github.com/xtekky/gpt4free.git && cd gpt4free`
+- Clone repository: `git clone https://github.com/subediSanjok/gpt4free.git && cd gpt4free`
 - Install minimal requirements: `pip install -r requirements-min.txt` -- takes 30-60 seconds. NEVER CANCEL.
 - Install full requirements: `pip install -r requirements.txt` -- takes 2-5 minutes. NEVER CANCEL. Set timeout to 600+ seconds.
 - Remove nodriver (CI requirement): `pip uninstall -y nodriver`
@@ -84,7 +84,7 @@ Always test these scenarios after making changes:
 ### Common Commands Reference
 ```bash
 # Development workflow
-git clone https://github.com/xtekky/gpt4free.git
+git clone https://github.com/subediSanjok/gpt4free.git
 cd gpt4free
 pip install -r requirements-min.txt  # Basic deps
 pip install -r requirements.txt      # Full deps  

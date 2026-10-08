@@ -4,16 +4,16 @@
 
 ### Autonomous AI Assistant, Codebase Engineer & Multi-Provider Platform
 
-[![Developer](https://img.shields.io/badge/Developer-Sanjok%20Subedi-blue.svg?style=for-the-badge&logo=github)](https://github.com/subediSanjok)
-[![Repository](https://img.shields.io/badge/Repository-subediSanjok%2FChatbot-success.svg?style=for-the-badge&logo=git)](https://github.com/subediSanjok/Chatbot)
+[![Developer](https://img.shields.io/badge/Developer-subediSanjok%20Subedi-blue.svg?style=for-the-badge&logo=github)](https://github.com/subedisubediSanjok)
+[![Repository](https://img.shields.io/badge/Repository-subedisubediSanjok%2FChatbot-success.svg?style=for-the-badge&logo=git)](https://github.com/subedisubediSanjok/Chatbot)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue.svg?style=for-the-badge&logo=python)](https://python.org)
 [![License](https://img.shields.io/badge/License-GPL%20v3-orange.svg?style=for-the-badge)](LICENSE)
 
 <br/>
 
-**Developer:** **Sanjok Subedi**  
-**GitHub Profile:** [@subediSanjok](https://github.com/subediSanjok)  
-**Project Repository:** [subediSanjok/Chatbot](https://github.com/subediSanjok/Chatbot)
+**Developer:** **subediSanjok Subedi**  
+**GitHub Profile:** [@subedisubediSanjok](https://github.com/subedisubediSanjok)  
+**Project Repository:** [subedisubediSanjok/Chatbot](https://github.com/subedisubediSanjok/Chatbot)
 
 ---
 
@@ -21,7 +21,7 @@
 
 ## 📌 Overview
 
-**Chatbot** is an all-in-one autonomous AI desktop assistant, background API gateway, and developer tool suite engineered by **Sanjok Subedi**. It integrates state-of-the-art Large Language Models (LLMs) and diffusion pipelines with developer workflow tooling, including browser and IDE extensions.
+**Chatbot** is an all-in-one autonomous AI desktop assistant, background API gateway, and developer tool suite engineered by **subediSanjok Subedi**. It integrates state-of-the-art Large Language Models (LLMs) and diffusion pipelines with developer workflow tooling, including browser and IDE extensions.
 
 Whether you need desktop AI assistance, automated codebase refactoring with side-by-side visual diffs, image generation, or a local OpenAI-compatible inference server, this repository delivers an integrated solution.
 
@@ -54,25 +54,25 @@ Whether you need desktop AI assistance, automated codebase refactoring with side
 
 ## 📂 Project Architecture
 
-Every component in this repository is organized into dedicated modules, each developed and maintained by **Sanjok Subedi**:
+Every component in this repository is organized into dedicated modules, each developed and maintained by **subediSanjok Subedi**:
 
 | Folder | Developer | Purpose |
 | :--- | :--- | :--- |
-| [`/g4f`](./g4f/README.md) | **Sanjok Subedi** | Core engine, client abstractions, providers, GUI server, and tool orchestrator |
-| [`/g4f/api`](./g4f/api/README.md) | **Sanjok Subedi** | OpenAI-compatible REST API endpoints and streaming server |
-| [`/g4f/cli`](./g4f/cli/README.md) | **Sanjok Subedi** | Interactive command-line interface for terminal usage |
-| [`/g4f/client`](./g4f/client/README.md) | **Sanjok Subedi** | High-level client SDKs with synchronous & asynchronous interfaces |
-| [`/g4f/gui`](./g4f/gui/README.md) | **Sanjok Subedi** | Web-based interface and local backend webview server |
-| [`/g4f/image`](./g4f/image/README.md) | **Sanjok Subedi** | Image generation, inpainting, and diffusion engines |
-| [`/g4f/integration`](./g4f/integration/README.md) | **Sanjok Subedi** | Third-party integrations including LangChain, MarkItDown, and Pydantic AI |
-| [`/g4f/Provider`](./g4f/Provider/README.md) | **Sanjok Subedi** | Multi-provider routing layer connecting various AI endpoints |
-| [`/g4f/tools`](./g4f/tools/README.md) | **Sanjok Subedi** | Autonomous agent tools: web search, scraping, file handling, and token optimization |
-| [`/extensions`](./extensions/README.md) | **Sanjok Subedi** | Chrome and VS Code developer extensions |
-| [`/docker`](./docker/README.md) | **Sanjok Subedi** | Docker containers and compose configuration for reproducible deployment |
-| [`/docs`](./docs/README.md) | **Sanjok Subedi** | Technical documentation and architectural guides |
-| [`/models`](./models/README.md) | **Sanjok Subedi** | Model registry, definitions, and local model mapping |
-| [`/scripts`](./scripts/README.md) | **Sanjok Subedi** | Build, compilation, packaging, and setup automation scripts |
-| [`/etc`](./etc/README.md) | **Sanjok Subedi** | Example scripts, test suites, and development tooling |
+| [`/g4f`](./g4f/README.md) | **subediSanjok Subedi** | Core engine, client abstractions, providers, GUI server, and tool orchestrator |
+| [`/g4f/api`](./g4f/api/README.md) | **subediSanjok Subedi** | OpenAI-compatible REST API endpoints and streaming server |
+| [`/g4f/cli`](./g4f/cli/README.md) | **subediSanjok Subedi** | Interactive command-line interface for terminal usage |
+| [`/g4f/client`](./g4f/client/README.md) | **subediSanjok Subedi** | High-level client SDKs with synchronous & asynchronous interfaces |
+| [`/g4f/gui`](./g4f/gui/README.md) | **subediSanjok Subedi** | Web-based interface and local backend webview server |
+| [`/g4f/image`](./g4f/image/README.md) | **subediSanjok Subedi** | Image generation, inpainting, and diffusion engines |
+| [`/g4f/integration`](./g4f/integration/README.md) | **subediSanjok Subedi** | Third-party integrations including LangChain, MarkItDown, and Pydantic AI |
+| [`/g4f/Provider`](./g4f/Provider/README.md) | **subediSanjok Subedi** | Multi-provider routing layer connecting various AI endpoints |
+| [`/g4f/tools`](./g4f/tools/README.md) | **subediSanjok Subedi** | Autonomous agent tools: web search, scraping, file handling, and token optimization |
+| [`/extensions`](./extensions/README.md) | **subediSanjok Subedi** | Chrome and VS Code developer extensions |
+| [`/docker`](./docker/README.md) | **subediSanjok Subedi** | Docker containers and compose configuration for reproducible deployment |
+| [`/docs`](./docs/README.md) | **subediSanjok Subedi** | Technical documentation and architectural guides |
+| [`/models`](./models/README.md) | **subediSanjok Subedi** | Model registry, definitions, and local model mapping |
+| [`/scripts`](./scripts/README.md) | **subediSanjok Subedi** | Build, compilation, packaging, and setup automation scripts |
+| [`/etc`](./etc/README.md) | **subediSanjok Subedi** | Example scripts, test suites, and development tooling |
 
 ---
 
@@ -85,7 +85,7 @@ Every component in this repository is organized into dedicated modules, each dev
 ### 2. Installation
 Clone the repository and install the dependencies:
 ```bash
-git clone https://github.com/subediSanjok/Chatbot.git
+git clone https://github.com/subedisubediSanjok/Chatbot.git
 cd Chatbot
 pip install -r requirements.txt
 ```
@@ -138,9 +138,9 @@ python g4f_cli.py
 
 ## 👨‍💻 Developer & Attribution
 
-- **Developer:** [Sanjok Subedi](https://github.com/subediSanjok)
-- **GitHub:** [@subediSanjok](https://github.com/subediSanjok)
-- **Project:** [Chatbot](https://github.com/subediSanjok/Chatbot)
+- **Developer:** [subediSanjok Subedi](https://github.com/subedisubediSanjok)
+- **GitHub:** [@subedisubediSanjok](https://github.com/subedisubediSanjok)
+- **Project:** [Chatbot](https://github.com/subedisubediSanjok/Chatbot)
 
 ---
 

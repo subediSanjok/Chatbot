@@ -1,13 +1,13 @@
 # 🌐 Chrome AI Assistant Extension
 
-**Developer:** **Sanjok Subedi**  
-**Repository:** [subediSanjok/Chatbot](https://github.com/subediSanjok/Chatbot)
+**Developer:** **subediSanjok Subedi**  
+**Repository:** [subedisubediSanjok/Chatbot](https://github.com/subedisubediSanjok/Chatbot)
 
 ---
 
 ## Overview
 
-A Manifest V3 Google Chrome extension engineered by **Sanjok Subedi** connecting your browser directly to the local Chatbot API server.
+A Manifest V3 Google Chrome extension engineered by **subediSanjok Subedi** connecting your browser directly to the local Chatbot API server.
 
 ## Features
 - ⚡ **Direct Server Integration**: Communicates with the local server at `http://127.0.0.1:1337`.
@@ -27,4 +27,4 @@ A Manifest V3 Google Chrome extension engineered by **Sanjok Subedi** connecting
 
 ---
 
-**Developed & Maintained by Sanjok Subedi**
+**Developed & Maintained by subediSanjok Subedi**

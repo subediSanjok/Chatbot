@@ -1,13 +1,13 @@
 # 🔌 Client SDK Module
 
-**Developer:** **Sanjok Subedi**  
-**Repository:** [subediSanjok/Chatbot](https://github.com/subediSanjok/Chatbot)
+**Developer:** **subediSanjok Subedi**  
+**Repository:** [subedisubediSanjok/Chatbot](https://github.com/subedisubediSanjok/Chatbot)
 
 ---
 
 ## Overview
 
-The `g4f.client` package, developed by **Sanjok Subedi**, supplies an ergonomic Python client interface mirroring the standard OpenAI client SDK (`client.chat.completions.create(...)`).
+The `g4f.client` package, developed by **subediSanjok Subedi**, supplies an ergonomic Python client interface mirroring the standard OpenAI client SDK (`client.chat.completions.create(...)`).
 
 ### Features
 - Synchronous and asynchronous execution.
@@ -16,4 +16,4 @@ The `g4f.client` package, developed by **Sanjok Subedi**, supplies an ergonomic 
 
 ---
 
-**Developed & Maintained by Sanjok Subedi**
+**Developed & Maintained by subediSanjok Subedi**

@@ -1,13 +1,13 @@
 # 🧠 g4f Core Engine
 
-**Developer:** **Sanjok Subedi**  
-**Repository:** [subediSanjok/Chatbot](https://github.com/subediSanjok/Chatbot)
+**Developer:** **subediSanjok Subedi**  
+**Repository:** [subedisubediSanjok/Chatbot](https://github.com/subedisubediSanjok/Chatbot)
 
 ---
 
 ## Overview
 
-The `g4f` package contains the core AI orchestrator, client abstractions, multi-provider network, REST API, diffusion modules, and local GUI servers engineered and maintained by **Sanjok Subedi**.
+The `g4f` package contains the core AI orchestrator, client abstractions, multi-provider network, REST API, diffusion modules, and local GUI servers engineered and maintained by **subediSanjok Subedi**.
 
 ## Architecture & Submodules
 
@@ -22,4 +22,4 @@ The `g4f` package contains the core AI orchestrator, client abstractions, multi-
 
 ---
 
-**Developed & Maintained by Sanjok Subedi**
+**Developed & Maintained by subediSanjok Subedi**

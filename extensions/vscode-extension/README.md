@@ -1,13 +1,13 @@
 # 💻 VS Code AI Assistant Extension
 
-**Developer:** **Sanjok Subedi**  
-**Repository:** [subediSanjok/Chatbot](https://github.com/subediSanjok/Chatbot)
+**Developer:** **subediSanjok Subedi**  
+**Repository:** [subedisubediSanjok/Chatbot](https://github.com/subedisubediSanjok/Chatbot)
 
 ---
 
 ## Overview
 
-A native VS Code extension built by **Sanjok Subedi** providing copilot assistance, codebase modification, and diff inspection powered by your local Chatbot AI server.
+A native VS Code extension built by **subediSanjok Subedi** providing copilot assistance, codebase modification, and diff inspection powered by your local Chatbot AI server.
 
 ## Features
 - ⚡ **Local LLM Gateway**: Connects to `http://127.0.0.1:1337/v1` without external telemetry.
@@ -30,4 +30,4 @@ A native VS Code extension built by **Sanjok Subedi** providing copilot assistan
 
 ---
 
-**Developed & Maintained by Sanjok Subedi**
+**Developed & Maintained by subediSanjok Subedi**

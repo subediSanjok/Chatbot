@@ -21,17 +21,17 @@ EXTRA_REQUIRE = {
     'all': [
         "curl_cffi>=0.6.2",
         "certifi",
-        "browser_cookie3", # get_cookies
-        "ddgs",            # web_search
+        "browser_cookie3",  # get_cookies
+        "ddgs",  # web_search
         "beautifulsoup4",  # web_search and bing.create_images
         "platformdirs",
-        "aiohttp_socks",           # proxy
-        "pillow",                  # image
-        "cairosvg",                # svg image
+        "aiohttp_socks",  # proxy
+        "pillow",  # image
+        "cairosvg",  # svg image
         "werkzeug",
-        "flask[async]",            # gui
-        "fastapi",                 # api
-        "uvicorn",                 # api
+        "flask[async]",  # gui
+        "fastapi",  # api
+        "uvicorn",  # api
         "zendriver",
         "python-multipart",
         "a2wsgi",
@@ -50,14 +50,14 @@ EXTRA_REQUIRE = {
         "curl_cffi>=0.6.2",
         "certifi",
         "browser_cookie3",
-        "ddgs",           # web_search
-        "beautifulsoup4", # web_search and bing.create_images
-        "aiohttp_socks",           # proxy
-        "pillow",                  # image
+        "ddgs",  # web_search
+        "beautifulsoup4",  # web_search and bing.create_images
+        "aiohttp_socks",  # proxy
+        "pillow",  # image
         "werkzeug",
-        "flask[async]",            # gui
-        "fastapi",                 # api
-        "uvicorn",                 # api
+        "flask[async]",  # gui
+        "fastapi",  # api
+        "uvicorn",  # api
         "zendriver",
         "python-multipart",
         "a2wsgi",
@@ -137,10 +137,10 @@ setup(
             'g4f-tray=g4f.tray:_tray_main',
         ],
     },
-    url='https://github.com/xtekky/gpt4free',  # Link to your GitHub repository
+    url='https://github.com/subediSanjok/gpt4free',  # Link to your GitHub repository
     project_urls={
-        'Source Code': 'https://github.com/xtekky/gpt4free',  # GitHub link
-        'Bug Tracker': 'https://github.com/xtekky/gpt4free/issues',  # Link to issue tracker
+        'Source Code': 'https://github.com/subediSanjok/gpt4free',  # GitHub link
+        'Bug Tracker': 'https://github.com/subediSanjok/gpt4free/issues',  # Link to issue tracker
     },
     keywords=[
         "gpt4free",

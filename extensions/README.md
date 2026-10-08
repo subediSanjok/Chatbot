@@ -1,13 +1,13 @@
 # 🧩 Chatbot Developer Extensions
 
-**Developer:** **Sanjok Subedi**  
-**Repository:** [subediSanjok/Chatbot](https://github.com/subediSanjok/Chatbot)
+**Developer:** **subediSanjok Subedi**  
+**Repository:** [subedisubediSanjok/Chatbot](https://github.com/subedisubediSanjok/Chatbot)
 
 ---
 
 ## Overview
 
-The `extensions` module houses native client integrations built by **Sanjok Subedi** to bring AI capabilities directly into modern developer workflows.
+The `extensions` module houses native client integrations built by **subediSanjok Subedi** to bring AI capabilities directly into modern developer workflows.
 
 ### Available Extensions
 
@@ -21,4 +21,4 @@ The `extensions` module houses native client integrations built by **Sanjok Sube
 
 ---
 
-**Developed & Maintained by Sanjok Subedi**
+**Developed & Maintained by subediSanjok Subedi**

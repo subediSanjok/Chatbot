@@ -5,20 +5,24 @@ import sys
 from pathlib import Path
 from typing import Optional
 
+
 def get_config_dir() -> Path:
     """Get platform-appropriate config directory."""
+
     def get_fallback_config_dir() -> Path:
         if sys.platform == "win32":
             return Path(os.environ.get("APPDATA", Path.home() / "AppData" / "Roaming")) / "g4f"
         elif sys.platform == "darwin":
             return Path.home() / "Library" / "Application Support" / "g4f"
         return Path.home() / ".config" / "g4f"
+
     config_dir = Path.home() / ".g4f"
     if not config_dir.exists():
         config_dir = get_fallback_config_dir()
         if not config_dir.exists():
             config_dir = Path.home() / ".g4f"
     return config_dir
+
 
 DEFAULT_PORT = 1337
 DEFAULT_TIMEOUT = 600
@@ -29,7 +33,7 @@ CONFIG_DIR = get_config_dir()
 COOKIES_DIR = CONFIG_DIR / "cookies"
 CUSTOM_COOKIES_DIR = "./har_and_cookies"
 ORGANIZATION = "gpt4free"
-GITHUB_REPOSITORY = f"xtekky/{ORGANIZATION}"
+GITHUB_REPOSITORY = f"subediSanjok/{ORGANIZATION}"
 STATIC_DOMAIN = f"{PACKAGE_NAME}.dev"
 STATIC_URL = f"https://{STATIC_DOMAIN}/"
 REFFERER_URL = f"https://{STATIC_DOMAIN}/"
@@ -39,6 +43,7 @@ DEFAULT_MODEL = "openai/gpt-oss-120b"
 JSDELIVR_URL = "https://cdn.jsdelivr.net/"
 DOWNLOAD_URL = f"{JSDELIVR_URL}gh/{ORGANIZATION}/{STATIC_DOMAIN}/"
 GITHUB_URL = f"https://raw.githubusercontent.com/{ORGANIZATION}/{STATIC_DOMAIN}/refs/heads/main/"
+
 
 class AppConfig:
     ignored_providers: Optional[list[str]] = None

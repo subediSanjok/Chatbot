@@ -3,11 +3,11 @@ name: Bug Report
 about: Report issues with specific models/providers
 title: '[Bug] '
 labels: bug
-assignees: hlohaus
+assignees: subediSanjok
 ---
 
 **Before submitting**
-☑️ I checked [Known Issues](https://github.com/xtekky/gpt4free#known-issues)  
+☑️ I checked [Known Issues](https://github.com/subediSanjok/gpt4free#known-issues)  
 ☑️ I searched existing issues
 
 **Configuration**  

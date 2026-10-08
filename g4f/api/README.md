@@ -1,13 +1,13 @@
 # 🌐 API Server Module
 
-**Developer:** **Sanjok Subedi**  
-**Repository:** [subediSanjok/Chatbot](https://github.com/subediSanjok/Chatbot)
+**Developer:** **subediSanjok Subedi**  
+**Repository:** [subedisubediSanjok/Chatbot](https://github.com/subedisubediSanjok/Chatbot)
 
 ---
 
 ## Overview
 
-The `g4f.api` module, developed by **Sanjok Subedi**, delivers a local HTTP server exposing standard OpenAI-compatible endpoints (`/v1/chat/completions`, `/v1/models`).
+The `g4f.api` module, developed by **subediSanjok Subedi**, delivers a local HTTP server exposing standard OpenAI-compatible endpoints (`/v1/chat/completions`, `/v1/models`).
 
 ### Features
 - Real-time streaming using Server-Sent Events (SSE).
@@ -16,4 +16,4 @@ The `g4f.api` module, developed by **Sanjok Subedi**, delivers a local HTTP serv
 
 ---
 
-**Developed & Maintained by Sanjok Subedi**
+**Developed & Maintained by subediSanjok Subedi**

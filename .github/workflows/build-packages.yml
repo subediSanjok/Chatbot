@@ -3,11 +3,11 @@ name: Build All Packages
 on:
   push:
     tags:
-      - '*'
+      - "*"
   workflow_dispatch:
     inputs:
       version:
-        description: 'Version to build (leave empty for auto)'
+        description: "Version to build (leave empty for auto)"
         required: false
         type: string
 
@@ -186,7 +186,7 @@ jobs:
           name: linux-exe-${{ matrix.architecture }}
           path: dist/g4f-linux-*
 
-  # macOS Executables  
+  # macOS Executables
   build-macos-exe:
     runs-on: macos-latest
     needs: prepare
@@ -256,7 +256,7 @@ jobs:
         uses: docker/metadata-action@c299e40c65443455700f0fdfc63efafe5b349051 # v5
         with:
           images: |
-            hlohaus789/g4f
+            subediSanjok789/g4f
       - name: Log in to Docker Hub
         uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
         with:
@@ -265,16 +265,16 @@ jobs:
       - name: Build and push armv7 image
         uses: docker/build-push-action@ca052bb54ab0790a636c9b5f226502c73d547a25 # v5
         with:
-            context: .
-            file: docker/Dockerfile-armv7
-            platforms: linux/arm/v7
-            push: true
-            tags: |
-              hlohaus789/g4f:latest-armv7
-              hlohaus789/g4f:${{ needs.prepare.outputs.version }}-armv7
-            labels: ${{ steps.metadata.outputs.labels }}
-            build-args: |
-              G4F_VERSION=${{ needs.prepare.outputs.version }}
+          context: .
+          file: docker/Dockerfile-armv7
+          platforms: linux/arm/v7
+          push: true
+          tags: |
+            subediSanjok789/g4f:latest-armv7
+            subediSanjok789/g4f:${{ needs.prepare.outputs.version }}-armv7
+          labels: ${{ steps.metadata.outputs.labels }}
+          build-args: |
+            G4F_VERSION=${{ needs.prepare.outputs.version }}
       - name: Build and push slim images
         uses: docker/build-push-action@ca052bb54ab0790a636c9b5f226502c73d547a25 # v5
         with:
@@ -283,8 +283,8 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
-            hlohaus789/g4f:latest-slim
-            hlohaus789/g4f:${{ needs.prepare.outputs.version }}-slim
+            subediSanjok789/g4f:latest-slim
+            subediSanjok789/g4f:${{ needs.prepare.outputs.version }}-slim
           labels: ${{ steps.metadata.outputs.labels }}
           build-args: |
             G4F_VERSION=${{ needs.prepare.outputs.version }}
@@ -376,7 +376,7 @@ jobs:
             NestedInstallerFiles:
             - RelativeFilePath: g4f-windows-${{ needs.prepare.outputs.version }}-x64.exe
               PortableCommandAlias: g4f
-            InstallerUrl: https://github.com/xtekky/gpt4free/releases/download/${{ needs.prepare.outputs.version }}/g4f-windows-${{ needs.prepare.outputs.version }}-x64.zip
+            InstallerUrl: https://github.com/subediSanjok/gpt4free/releases/download/${{ needs.prepare.outputs.version }}/g4f-windows-${{ needs.prepare.outputs.version }}-x64.zip
             InstallerSha256: ${{ steps.hash.outputs.hash_x64 }}
           ManifestType: installer
           ManifestVersion: 1.4.0
@@ -388,11 +388,11 @@ jobs:
           PackageVersion: ${{ needs.prepare.outputs.version }}
           PackageLocale: en-US
           Publisher: GPT4Free
-          PublisherUrl: https://github.com/xtekky/gpt4free
+          PublisherUrl: https://github.com/subediSanjok/gpt4free
           PackageName: g4f
-          PackageUrl: https://github.com/xtekky/gpt4free
+          PackageUrl: https://github.com/subediSanjok/gpt4free
           License: GPL-3.0
-          LicenseUrl: https://github.com/xtekky/gpt4free/blob/main/LICENSE
+          LicenseUrl: https://github.com/subediSanjok/gpt4free/blob/main/LICENSE
           ShortDescription: The official gpt4free repository
           Description: Various collection of powerful language models
           Tags:
@@ -414,7 +414,15 @@ jobs:
   # Release Creation
   create-release:
     runs-on: ubuntu-latest
-    needs: [prepare, build-pypi, build-windows-exe, build-linux-exe, build-macos-exe, create-winget-manifest]
+    needs:
+      [
+        prepare,
+        build-pypi,
+        build-windows-exe,
+        build-linux-exe,
+        build-macos-exe,
+        create-winget-manifest,
+      ]
     if: needs.prepare.outputs.is_release == 'true'
     permissions:
       contents: write
@@ -451,12 +459,12 @@ jobs:
             - WinGet: `winget install gpt4free`
 
             **Docker:**
-            - `docker pull hlohaus789/g4f:${{ needs.prepare.outputs.version }}`
-            - `docker pull hlohaus789/g4f:${{ needs.prepare.outputs.version }}-slim`
+            - `docker pull subediSanjok789/g4f:${{ needs.prepare.outputs.version }}`
+            - `docker pull subediSanjok789/g4f:${{ needs.prepare.outputs.version }}-slim`
 
             💻 **Having trouble with the .exe from this release?**  
             👉 Check out the Windows launcher for GPT4Free instead:  
-            🔗 [https://github.com/gpt4free/g4f.exe](https://github.com/gpt4free/g4f.exe) 🚀  
+            🔗 [https://github.com/gpt4free/g4f.exe](https://github.com/gpt4free/g4f.exe) 🚀
           draft: false
           prerelease: false
           files: |

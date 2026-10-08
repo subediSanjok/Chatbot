@@ -51,7 +51,7 @@ After a successful build, packages are available:
   - Debian packages for AMD64, ARM64, and ARMv7 architectures
   - WinGet manifest files
 - **PyPI**: `pip install g4f`
-- **Docker Hub**: `docker pull hlohaus789/g4f:latest`
+- **Docker Hub**: `docker pull subediSanjok789/g4f:latest`
 - **WinGet**: `winget install g4f` (after manifest approval)
 
 ### Build Requirements
