@@ -1,0 +1,31 @@
+{
+  "manifest_version": 3,
+  "name": "g4f AI & Vision Assistant",
+  "version": "1.2.0",
+  "description": "Local AI Assistant & Computer Vision Architecture companion for code generation, OCR validation, and smart webpage analysis.",
+  "permissions": [
+    "activeTab",
+    "contextMenus",
+    "storage",
+    "scripting",
+    "sidePanel"
+  ],
+  "host_permissions": [
+    "http://127.0.0.1:*/*",
+    "http://localhost:*/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "g4f AI & Vision Assistant"
+  },
+  "side_panel": {
+    "default_path": "popup.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": false
+  }
+}

@@ -1,0 +1,131 @@
+{
+  "name": "g4f-vscode-assistant",
+  "displayName": "g4f Local AI Assistant",
+  "description": "Connect VS Code to your local g4f server for free multi-model AI coding assistance, refactoring, bug fixing, and explanation.",
+  "version": "1.0.0",
+  "publisher": "g4f",
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Machine Learning",
+    "Other"
+  ],
+  "main": "./extension.js",
+  "activationEvents": [
+    "*"
+  ],
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "g4f-sidebar-view",
+          "title": "g4f AI Assistant",
+          "icon": "media/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "g4f-sidebar-view": [
+        {
+          "type": "webview",
+          "id": "g4f.chatView",
+          "name": "g4f AI Chat"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "g4f.askAI",
+        "title": "g4f AI: Ask Anything / Code Helper",
+        "category": "g4f AI"
+      },
+      {
+        "command": "g4f.explainCode",
+        "title": "g4f AI: Explain Selected Code",
+        "category": "g4f AI"
+      },
+      {
+        "command": "g4f.refactorCode",
+        "title": "g4f AI: Refactor & Optimize Code",
+        "category": "g4f AI"
+      },
+      {
+        "command": "g4f.fixBugs",
+        "title": "g4f AI: Find & Fix Bugs",
+        "category": "g4f AI"
+      },
+      {
+        "command": "g4f.openChat",
+        "title": "g4f AI: Focus Chat Panel",
+        "category": "g4f AI"
+      },
+      {
+        "command": "g4f.clearChat",
+        "title": "g4f AI: Clear Chat History",
+        "category": "g4f AI"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "g4f.askAI",
+        "key": "ctrl+alt+g",
+        "mac": "cmd+alt+g",
+        "when": "editorTextFocus"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "g4f.explainCode",
+          "group": "g4f_ai@1",
+          "when": "editorHasSelection"
+        },
+        {
+          "command": "g4f.refactorCode",
+          "group": "g4f_ai@2",
+          "when": "editorHasSelection"
+        },
+        {
+          "command": "g4f.fixBugs",
+          "group": "g4f_ai@3",
+          "when": "editorHasSelection"
+        },
+        {
+          "command": "g4f.askAI",
+          "group": "g4f_ai@4"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "g4f.clearChat",
+          "when": "view == g4f.chatView",
+          "group": "navigation"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "g4f AI Assistant",
+      "properties": {
+        "g4f.serverUrl": {
+          "type": "string",
+          "default": "http://127.0.0.1:1337",
+          "description": "Base URL of your running g4f API server."
+        },
+        "g4f.model": {
+          "type": "string",
+          "default": "gpt-4o",
+          "enum": [
+            "gpt-4o",
+            "gemini-2.0-flash",
+            "deepseek-r1",
+            "claude-3.5-sonnet",
+            "llama-3.3-70b"
+          ],
+          "description": "Model to use for code completions."
+        }
+      }
+    }
+  }
+}

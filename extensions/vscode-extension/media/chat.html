@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>g4f AI Codex & Codebase Assistant</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: var(--vscode-font-family, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+        }
+
+        body {
+            background-color: var(--vscode-sideBar-background, #181824);
+            color: var(--vscode-sideBar-foreground, #cccccc);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+            font-size: var(--vscode-font-size, 13px);
+        }
+
+        .top-bar {
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--vscode-sideBar-border, #282838);
+            gap: 8px;
+            background: var(--vscode-editor-background, #1e1e2e);
+        }
+
+        .model-select {
+            background: var(--vscode-input-background, #252538);
+            color: var(--vscode-input-foreground, #ffffff);
+            border: 1px solid var(--vscode-input-border, #3a3a4c);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            outline: none;
+            flex: 1;
+        }
+
+        .btn-clear {
+            background: transparent;
+            border: 1px solid var(--vscode-button-secondaryBackground, #3a3a4c);
+            color: var(--vscode-foreground, #ccc);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            cursor: pointer;
+        }
+
+        .btn-clear:hover {
+            background: var(--vscode-button-secondaryHoverBackground, #4a4a5c);
+        }
+
+        .active-file-strip {
+            display: none;
+            padding: 4px 12px;
+            font-size: 11px;
+            background: rgba(59, 130, 246, 0.08);
+            border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+            color: #93c5fd;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .chat-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .message {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            max-width: 100%;
+        }
+
+        .message-header {
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--vscode-descriptionForeground, #888);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .message.user .message-header {
+            color: var(--vscode-textLink-foreground, #60a5fa);
+        }
+
+        .message.assistant .message-header {
+            color: #a78bfa;
+        }
+
+        .bubble {
+            padding: 10px 12px;
+            border-radius: 8px;
+            line-height: 1.5;
+            word-break: break-word;
+            font-size: 12.5px;
+        }
+
+        .message.user .bubble {
+            background: var(--vscode-editor-inactiveSelectionBackground, #2d3748);
+            color: var(--vscode-foreground, #fff);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .message.assistant .bubble {
+            background: var(--vscode-editor-background, #1e1e2e);
+            border: 1px solid var(--vscode-widget-border, #33384f);
+            color: var(--vscode-foreground, #e2e8f0);
+        }
+
+        .message.error .bubble {
+            background: #451a1a;
+            border: 1px solid #7f1d1d;
+            color: #fca5a5;
+        }
+
+        /* Batch Apply Banner */
+        .batch-apply-card {
+            margin: 6px 0 10px 0;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(168, 85, 247, 0.15));
+            border: 1px solid rgba(96, 165, 250, 0.3);
+            border-radius: 6px;
+            padding: 8px 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .batch-info {
+            font-size: 11.5px;
+            font-weight: 600;
+            color: #93c5fd;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .batch-apply-btn {
+            background: #2563eb;
+            color: #ffffff;
+            border: none;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: background 0.15s;
+        }
+
+        .batch-apply-btn:hover {
+            background: #1d4ed8;
+        }
+
+        pre {
+            background: #11111b;
+            border: 1px solid #313244;
+            border-radius: 6px;
+            margin: 8px 0;
+            overflow-x: auto;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #181825;
+            padding: 5px 8px;
+            font-size: 10.5px;
+            color: #a6adc8;
+            border-bottom: 1px solid #313244;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+
+        .file-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-weight: 600;
+            color: #60a5fa;
+            background: rgba(96, 165, 250, 0.12);
+            padding: 2px 6px;
+            border-radius: 3px;
+            border: 1px solid rgba(96, 165, 250, 0.25);
+            max-width: 170px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .code-actions {
+            display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
+        }
+
+        .code-btn {
+            background: #313244;
+            border: none;
+            color: #cdd6f4;
+            padding: 3px 6px;
+            border-radius: 3px;
+            font-size: 10px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            transition: all 0.15s;
+        }
+
+        .code-btn:hover {
+            background: #45475a;
+        }
+
+        .code-btn.btn-apply {
+            background: #1e3a8a;
+            color: #bfdbfe;
+            border: 1px solid #3b82f6;
+            font-weight: 600;
+        }
+
+        .code-btn.btn-apply:hover {
+            background: #2563eb;
+            color: #ffffff;
+        }
+
+        .code-btn.btn-diff {
+            background: #3b2a5a;
+            color: #e9d5ff;
+            border: 1px solid #9333ea;
+        }
+
+        .code-btn.btn-diff:hover {
+            background: #7e22ce;
+            color: #ffffff;
+        }
+
+        .code-btn.applied {
+            background: #14532d !important;
+            color: #86efac !important;
+            border-color: #22c55e !important;
+        }
+
+        pre code {
+            display: block;
+            padding: 10px;
+            font-family: var(--vscode-editor-font-family, "Consolas", monospace);
+            font-size: 11.5px;
+            color: #a6e3a1;
+            white-space: pre;
+        }
+
+        .pills-container {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+            padding: 6px 12px;
+            background: var(--vscode-sideBar-background, #181824);
+        }
+
+        .pill {
+            background: var(--vscode-badge-background, #2e3440);
+            color: var(--vscode-badge-foreground, #88c0d0);
+            border: 1px solid rgba(255,255,255,0.1);
+            font-size: 10.5px;
+            padding: 3px 8px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .pill:hover {
+            background: var(--vscode-button-background, #3b82f6);
+            color: #ffffff;
+        }
+
+        .thinking {
+            display: none;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            color: var(--vscode-descriptionForeground, #999);
+            padding: 6px 12px;
+        }
+
+        .dot-flashing {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: #a78bfa;
+            animation: dotFlashing 1s infinite alternate;
+        }
+
+        @keyframes dotFlashing {
+            0% { opacity: 0.2; }
+            100% { opacity: 1; }
+        }
+
+        .input-area {
+            padding: 10px 12px;
+            background: var(--vscode-editor-background, #1e1e2e);
+            border-top: 1px solid var(--vscode-sideBar-border, #282838);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .input-row {
+            display: flex;
+            gap: 6px;
+        }
+
+        textarea {
+            flex: 1;
+            background: var(--vscode-input-background, #252538);
+            color: var(--vscode-input-foreground, #ffffff);
+            border: 1px solid var(--vscode-input-border, #3a3a4c);
+            border-radius: 6px;
+            padding: 8px;
+            font-size: 12px;
+            resize: none;
+            height: 52px;
+            outline: none;
+        }
+
+        textarea:focus {
+            border-color: var(--vscode-focusBorder, #60a5fa);
+        }
+
+        .btn-send {
+            background: var(--vscode-button-background, #3b82f6);
+            color: var(--vscode-button-foreground, #ffffff);
+            border: none;
+            border-radius: 6px;
+            padding: 0 14px;
+            font-weight: 600;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .btn-send:hover {
+            background: var(--vscode-button-hoverBackground, #2563eb);
+        }
+
+        .btn-send:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .options-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 11px;
+            color: var(--vscode-descriptionForeground, #888);
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+        }
+
+        .image-card {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 8px;
+            background: #181825;
+            border: 1px solid #313244;
+            border-radius: 8px;
+            padding: 8px;
+            overflow: hidden;
+        }
+
+        .image-preview-wrapper {
+            position: relative;
+            width: 100%;
+            border-radius: 6px;
+            overflow: hidden;
+            background: #11111b;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 180px;
+        }
+
+        .image-preview-wrapper img {
+            width: 100%;
+            height: auto;
+            max-height: 400px;
+            object-fit: contain;
+            border-radius: 6px;
+            display: block;
+        }
+
+        .image-actions {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-top: 4px;
+        }
+
+        .img-btn {
+            background: #313244;
+            color: #cdd6f4;
+            border: 1px solid #45475a;
+            border-radius: 4px;
+            padding: 5px 9px;
+            font-size: 11px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.15s;
+        }
+
+        .img-btn:hover {
+            background: #45475a;
+            color: #ffffff;
+        }
+
+        .img-btn.btn-save {
+            background: #065f46;
+            color: #a7f3d0;
+            border-color: #059669;
+            font-weight: 600;
+        }
+
+        .img-btn.btn-save:hover {
+            background: #047857;
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">
+        <select class="model-select" id="modelSelector">
+            <option value="gpt-4o">gpt-4o (Free - Recommended)</option>
+            <option value="deepseek-r1">deepseek-r1 (Free - Reasoning)</option>
+            <option value="gemini-2.0-flash">gemini-2.0-flash (Free - Fast)</option>
+            <option value="llama-3.3-70b">llama-3.3-70b (Free)</option>
+            <option value="claude-3.5-sonnet">claude-3.5-sonnet (Requires API Key)</option>
+            <option value="flux">🎨 flux (AI Image Generator)</option>
+        </select>
+        <button class="btn-clear" id="clearBtn">🧹 Clear</button>
+    </div>
+
+    <div class="active-file-strip" id="activeFileStrip">
+        <span>📄 Focused:</span>
+        <strong id="activeFileName">None</strong>
+    </div>
+
+    <div class="chat-container" id="chatContainer">
+        <div class="message assistant">
+            <div class="message-header">🤖 Codex / Claude Assistant</div>
+            <div class="bubble">
+                Hello! I am your AI coding & image assistant. You can ask me to implement features, modify code, or generate images (e.g. <em>"generate an image of a map of Nepal"</em> or <em>"/image a futuristic datacenter"</em>)!
+            </div>
+        </div>
+    </div>
+
+    <div class="thinking" id="thinkingIndicator">
+        <div class="dot-flashing"></div>
+        <span id="thinkingText">Generating code changes...</span>
+    </div>
+
+    <div class="pills-container">
+        <button class="pill" style="background:#ec4899; color:#fff;" data-prompt="/image Generate a high quality realistic image of: ">🎨 Nano Banana 2 Image Gen</button>
+        <button class="pill" style="background:#7c3aed; color:#fff;" data-prompt="Design and implement a complete Python Pipeline with OpenCV + SAM 2 (Segment Anything) + Diffusers SDXL/Flux Inpainting for adding/removing objects with mask preservation for: ">🎯 SAM + Inpainting Pipeline</button>
+        <button class="pill" style="background:#9333ea; color:#fff;" data-prompt="Implement a PyTorch + Diffusers ControlNet structural conditioning pipeline (Canny Edge + Depth + Pose) preserving exact subject geometry and background for: ">📐 ControlNet Conditioning</button>
+        <button class="pill" style="background:#4f46e5; color:#fff;" data-prompt="Implement a complete Super-Resolution and Quality Validation pipeline using Real-ESRGAN + OpenCV + SSIM quality metrics in Python for: ">🔍 Real-ESRGAN Super-Res</button>
+        <button class="pill" style="background:#0284c7; color:#fff;" data-prompt="Design and implement a complete OpenCV Preprocessing + PaddleOCR + YOLO + Validation Pipeline in Python for: ">📸 OCR & YOLO Pipeline</button>
+        <button class="pill" style="background:#2563eb; color:#fff;" data-prompt="Implement the following logic and apply it directly: ">🚀 Implement Code</button>
+        <button class="pill" data-prompt="Find and fix bugs in this code:">🐛 Fix Bugs</button>
+    </div>
+
+    <div class="input-area">
+        <div class="input-row">
+            <textarea id="promptInput" placeholder="Enter instructions (e.g. 'Add login validation' or @workspace)... (Enter to send)"></textarea>
+            <button class="btn-send" id="sendBtn">Send</button>
+        </div>
+        <div class="options-row">
+            <label class="checkbox-label" title="Automatically write changes to workspace files">
+                <input type="checkbox" id="autoApplyCb">
+                <span style="color:#60a5fa; font-weight:600;">⚡ Auto-apply to codebase</span>
+            </label>
+            <label class="checkbox-label" title="Attach active editor code">
+                <input type="checkbox" id="includeCodeCb" checked>
+                <span>Attach active file/code</span>
+            </label>
+            <label class="checkbox-label" title="Include all workspace files as context">
+                <input type="checkbox" id="scanWorkspaceCb">
+                <span>📁 Workspace context</span>
+            </label>
+        </div>
+    </div>
+
+    <script>
+        const vscode = acquireVsCodeApi();
+        const chatContainer = document.getElementById('chatContainer');
+        const promptInput = document.getElementById('promptInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const modelSelector = document.getElementById('modelSelector');
+        const includeCodeCb = document.getElementById('includeCodeCb');
+        const scanWorkspaceCb = document.getElementById('scanWorkspaceCb');
+        const autoApplyCb = document.getElementById('autoApplyCb');
+        const thinkingIndicator = document.getElementById('thinkingIndicator');
+        const activeFileStrip = document.getElementById('activeFileStrip');
+        const activeFileName = document.getElementById('activeFileName');
+
+        let currentActiveFilePath = "";
+
+        // Maintain store of generated edits per message for batch apply
+        let messageEditsStore = {};
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.innerText = text;
+            return div.innerHTML;
+        }
+
+        function extractFilePath(rawHeader, precedingText) {
+            // Check header format `language:filepath/name.ext`
+            if (rawHeader && rawHeader.includes(':')) {
+                const parts = rawHeader.split(':');
+                if (parts.length > 1 && parts[1].trim()) {
+                    return parts.slice(1).join(':').trim();
+                }
+            }
+
+            // Check preceding text for patterns like ### File: path/to/file or File: `path/to/file`
+            if (precedingText) {
+                const fileMatch = precedingText.match(/(?:###\s*File:|File:|Target\s*file:)\s*[`'"]?([a-zA-Z0-9_\-\.\/\\~]+)[`'"]?/i);
+                if (fileMatch && fileMatch[1]) {
+                    return fileMatch[1].trim();
+                }
+            }
+
+            return currentActiveFilePath || "";
+        }
+
+        function formatMarkdownAndExtractEdits(text, messageId) {
+            const detectedEdits = [];
+            const codeBlockRegex = /```([a-zA-Z0-9_\-\.\/\\:]*)\n([\s\S]*?)```/g;
+
+            let formatted = text.replace(codeBlockRegex, function(match, headerInfo, code, offset, fullStr) {
+                const cleanCode = code.trim();
+                const precedingSnippet = fullStr.substring(Math.max(0, offset - 150), offset);
+                const targetFilePath = extractFilePath(headerInfo, precedingSnippet);
+                const lang = headerInfo.includes(':') ? headerInfo.split(':')[0] : (headerInfo || 'code');
+
+                const editIndex = detectedEdits.length;
+                detectedEdits.push({
+                    id: `${messageId}_edit_${editIndex}`,
+                    filePath: targetFilePath,
+                    code: cleanCode
+                });
+
+                const encodedCode = encodeURIComponent(cleanCode);
+                const encodedPath = encodeURIComponent(targetFilePath);
+
+                const fileBadgeHtml = targetFilePath 
+                    ? `<span class="file-badge" title="${escapeHtml(targetFilePath)}">📄 ${escapeHtml(targetFilePath)}</span>`
+                    : `<span>${escapeHtml(lang)}</span>`;
+
+                return '<pre id="' + messageId + '_pre_' + editIndex + '">' +
+                       '<div class="code-header">' +
+                           fileBadgeHtml +
+                           '<div class="code-actions">' +
+                               '<button class="code-btn btn-apply" id="btn_apply_' + messageId + '_' + editIndex + '" onclick="applyCodeChange(\'' + encodedPath + '\', \'' + encodedCode + '\', \'' + messageId + '_' + editIndex + '\')">⚡ Apply to File</button>' +
+                               '<button class="code-btn btn-diff" onclick="reviewDiff(\'' + encodedPath + '\', \'' + encodedCode + '\')">🔍 Review Diff</button>' +
+                               '<button class="code-btn" onclick="insertCode(\'' + encodedCode + '\')">📥 Insert</button>' +
+                               '<button class="code-btn" onclick="copyCode(\'' + encodedCode + '\')">📋 Copy</button>' +
+                           '</div>' +
+                       '</div>' +
+                       '<code>' + escapeHtml(cleanCode) + '</code>' +
+                       '</pre>';
+            });
+
+            formatted = formatted.replace(/`([^`]+)`/g, '<code>$1</code>');
+            formatted = formatted.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+            formatted = formatted.replace(/\n/g, '<br/>');
+
+            return { formattedHtml: formatted, detectedEdits: detectedEdits };
+        }
+
+        window.copyCode = function(encoded) {
+            const code = decodeURIComponent(encoded);
+            navigator.clipboard.writeText(code);
+        };
+
+        window.insertCode = function(encoded) {
+            const code = decodeURIComponent(encoded);
+            vscode.postMessage({ type: 'insertCode', code: code });
+        };
+
+        window.applyCodeChange = function(encodedPath, encodedCode, buttonIdSuffix) {
+            const filePath = decodeURIComponent(encodedPath);
+            const code = decodeURIComponent(encodedCode);
+            vscode.postMessage({
+                type: 'applyFileEdit',
+                filePath: filePath,
+                code: code
+            });
+
+            const btn = document.getElementById('btn_apply_' + buttonIdSuffix);
+            if (btn) {
+                btn.innerHTML = '✅ Applied';
+                btn.classList.add('applied');
+            }
+        };
+
+        window.reviewDiff = function(encodedPath, encodedCode) {
+            const filePath = decodeURIComponent(encodedPath);
+            const code = decodeURIComponent(encodedCode);
+            vscode.postMessage({
+                type: 'reviewDiff',
+                filePath: filePath,
+                code: code
+            });
+        };
+
+        window.applyAllMessageEdits = function(messageId) {
+            const edits = messageEditsStore[messageId];
+            if (edits && edits.length > 0) {
+                vscode.postMessage({
+                    type: 'applyAllEdits',
+                    edits: edits
+                });
+
+                // Mark all buttons in message as applied
+                edits.forEach((edit, idx) => {
+                    const btn = document.getElementById('btn_apply_' + messageId + '_' + idx);
+                    if (btn) {
+                        btn.innerHTML = '✅ Applied';
+                        btn.classList.add('applied');
+                    }
+                });
+
+                const batchBtn = document.getElementById('batch_btn_' + messageId);
+                if (batchBtn) {
+                    batchBtn.innerHTML = '✅ All Applied';
+                    batchBtn.style.background = '#166534';
+                }
+            }
+        };
+
+        function addMessage(role, content, codeSnippet, autoApply) {
+            const messageId = 'msg_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'message ' + role;
+            msgDiv.id = messageId;
+
+            const header = document.createElement('div');
+            header.className = 'message-header';
+            header.innerText = role === 'user' ? '👤 You' : (role === 'error' ? '⚠️ Error' : '🤖 Codex / Claude Assistant');
+
+            const bubble = document.createElement('div');
+            bubble.className = 'bubble';
+
+            let { formattedHtml, detectedEdits } = formatMarkdownAndExtractEdits(content, messageId);
+
+            if (detectedEdits && detectedEdits.length > 0) {
+                messageEditsStore[messageId] = detectedEdits;
+
+                // Add Batch Apply Card if multiple edits or file edits exist
+                const fileList = detectedEdits.map(e => e.filePath ? e.filePath : "active file").join(", ");
+                const batchCardHtml = `
+                    <div class="batch-apply-card">
+                        <div class="batch-info">
+                            <span>🚀 ${detectedEdits.length} file change${detectedEdits.length > 1 ? 's' : ''} proposed:</span>
+                            <small style="color:#bfdbfe;">(${escapeHtml(fileList)})</small>
+                        </div>
+                        <button class="batch-apply-btn" id="batch_btn_${messageId}" onclick="applyAllMessageEdits('${messageId}')">
+                            ⚡ Apply All to Codebase
+                        </button>
+                    </div>
+                `;
+                formattedHtml = batchCardHtml + formattedHtml;
+            }
+
+            if (codeSnippet) {
+                formattedHtml += '<br/><span style="font-size:11px; color:#888;">📎 Attached active code context</span>';
+            }
+
+            bubble.innerHTML = formattedHtml;
+
+            msgDiv.appendChild(header);
+            msgDiv.appendChild(bubble);
+            chatContainer.appendChild(msgDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+
+            // Handle auto-apply mode
+            if (role === 'assistant' && autoApply && detectedEdits.length > 0) {
+                setTimeout(() => {
+                    applyAllMessageEdits(messageId);
+                }, 300);
+            }
+        }
+
+        function addImageMessage(imageUrl, prompt, revisedPrompt) {
+            const messageId = 'img_' + Date.now();
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'message assistant';
+            msgDiv.id = messageId;
+
+            const header = document.createElement('div');
+            header.className = 'message-header';
+            header.innerText = '🎨 Flux AI Image Generator';
+
+            const bubble = document.createElement('div');
+            bubble.className = 'bubble';
+
+            const encodedUrl = encodeURIComponent(imageUrl);
+            const encodedPrompt = encodeURIComponent(prompt || "generated_image");
+
+            bubble.innerHTML = `
+                <div><strong>Prompt:</strong> <em>${escapeHtml(prompt || "")}</em></div>
+                ${revisedPrompt && revisedPrompt !== prompt ? `<div style="font-size:11px; color:#a6adc8; margin-top:2px;"><strong>Revised:</strong> ${escapeHtml(revisedPrompt)}</div>` : ''}
+                <div class="image-card">
+                    <div class="image-preview-wrapper">
+                        <img src="${escapeHtml(imageUrl)}" alt="${escapeHtml(prompt)}" loading="lazy" />
+                    </div>
+                    <div class="image-actions">
+                        <button class="img-btn btn-save" onclick="saveImage('${encodedUrl}', '${encodedPrompt}')">💾 Save to Project</button>
+                        <button class="img-btn" onclick="copyImageUrl('${encodedUrl}')">📋 Copy Image URL</button>
+                        <button class="img-btn" onclick="insertImageMarkdown('${encodedUrl}', '${encodedPrompt}')">📥 Insert into Editor</button>
+                        <a href="${escapeHtml(imageUrl)}" target="_blank" class="img-btn" style="text-decoration:none;">🔗 Open Full Size</a>
+                    </div>
+                </div>
+            `;
+
+            msgDiv.appendChild(header);
+            msgDiv.appendChild(bubble);
+            chatContainer.appendChild(msgDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        window.saveImage = function(encodedUrl, encodedPrompt) {
+            const imageUrl = decodeURIComponent(encodedUrl);
+            const prompt = decodeURIComponent(encodedPrompt);
+            vscode.postMessage({
+                type: 'saveImage',
+                imageUrl: imageUrl,
+                suggestedName: prompt
+            });
+        };
+
+        window.copyImageUrl = function(encodedUrl) {
+            const imageUrl = decodeURIComponent(encodedUrl);
+            navigator.clipboard.writeText(imageUrl);
+        };
+
+        window.insertImageMarkdown = function(encodedUrl, encodedPrompt) {
+            const imageUrl = decodeURIComponent(encodedUrl);
+            const prompt = decodeURIComponent(encodedPrompt);
+            const markdown = `![${prompt}](${imageUrl})\n`;
+            vscode.postMessage({
+                type: 'insertCode',
+                code: markdown
+            });
+        };
+
+        function sendMessage() {
+            const text = promptInput.value.trim();
+            if (!text) return;
+
+            const shouldScanWorkspace = scanWorkspaceCb.checked || text.includes('@workspace');
+
+            vscode.postMessage({
+                type: 'sendMessage',
+                text: text.replace('@workspace', '').trim(),
+                model: modelSelector.value,
+                includeCode: includeCodeCb.checked,
+                scanWorkspace: shouldScanWorkspace,
+                autoApply: autoApplyCb.checked
+            });
+
+            promptInput.value = '';
+            promptInput.focus();
+        }
+
+        sendBtn.addEventListener('click', sendMessage);
+
+        promptInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        clearBtn.addEventListener('click', function() {
+            chatContainer.innerHTML = '';
+            messageEditsStore = {};
+            vscode.postMessage({ type: 'clearHistory' });
+            addMessage('assistant', 'Chat history cleared. How can I help implement or edit your codebase?');
+        });
+
+        document.querySelectorAll('.pill').forEach(function(pill) {
+            pill.addEventListener('click', function() {
+                const prompt = pill.getAttribute('data-prompt');
+                promptInput.value = prompt;
+                promptInput.focus();
+            });
+        });
+
+        window.addEventListener('message', function(event) {
+            const msg = event.data;
+            switch (msg.type) {
+                case 'addMessage':
+                    addMessage(msg.message.role, msg.message.content, msg.message.codeSnippet, msg.message.autoApply);
+                    break;
+                case 'addImageMessage':
+                    addImageMessage(msg.imageUrl, msg.prompt, msg.revisedPrompt);
+                    break;
+                case 'setLoading':
+                    thinkingIndicator.style.display = msg.loading ? 'flex' : 'none';
+                    if (msg.loadingText) {
+                        document.getElementById('thinkingText').innerText = msg.loadingText;
+                    } else {
+                        document.getElementById('thinkingText').innerText = "Generating code changes...";
+                    }
+                    sendBtn.disabled = msg.loading;
+                    if (msg.loading) {
+                        chatContainer.scrollTop = chatContainer.scrollHeight;
+                    }
+                    break;
+                case 'clearChat':
+                    chatContainer.innerHTML = '';
+                    messageEditsStore = {};
+                    addMessage('assistant', 'Chat history cleared.');
+                    break;
+                case 'activeEditorChanged':
+                    currentActiveFilePath = msg.filePath || "";
+                    if (currentActiveFilePath) {
+                        activeFileName.innerText = currentActiveFilePath;
+                        activeFileStrip.style.display = 'flex';
+                    } else {
+                        activeFileStrip.style.display = 'none';
+                    }
+                    break;
+                case 'fileAppliedSuccess':
+                    // Update any buttons referencing this path
+                    document.querySelectorAll('.file-badge').forEach(badge => {
+                        if (badge.innerText.includes(msg.filePath)) {
+                            const pre = badge.closest('pre');
+                            if (pre) {
+                                const btn = pre.querySelector('.btn-apply');
+                                if (btn) {
+                                    btn.innerHTML = '✅ Applied';
+                                    btn.classList.add('applied');
+                                }
+                            }
+                        }
+                    });
+                    break;
+            }
+        });
+    </script>
+</body>
+</html>

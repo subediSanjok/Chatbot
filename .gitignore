@@ -1,0 +1,32 @@
+bin
+dist
+__pycache__
+generated_media
+site-packages
+projects
+node_modules
+g4f.egg-info
+models/models.json
+pyvenv.cfg
+lib64
+/.idea
+container/
+g4f.dev
+har_and_cookies
+
+# Environment and sensitive keys
+.env
+.env.*
+!.env.example
+!example.env
+
+# Build and PyInstaller artifacts
+build/
+*.pyc
+*.pyo
+*.pyd
+
+# Accidental local paths and IDE
+%USERPROFILE%/
+.vscode/
+gpt4free-main/

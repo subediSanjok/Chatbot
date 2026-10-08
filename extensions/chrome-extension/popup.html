@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>g4f AI & Vision Assistant</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      width: 440px;
+      min-height: 520px;
+      max-height: 600px;
+      background-color: #0f111a;
+      color: #e2e8f0;
+      display: flex;
+      flex-direction: column;
+      padding: 12px;
+      overflow-y: auto;
+      font-size: 13px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #1e2438;
+      margin-bottom: 10px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .brand h2 {
+      font-size: 15px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #60a5fa, #c084fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .status-badge {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: #1e293b;
+      color: #94a3b8;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #eab308;
+    }
+
+    .status-dot.online {
+      background: #22c55e;
+      box-shadow: 0 0 6px #22c55e;
+    }
+
+    .status-dot.offline {
+      background: #ef4444;
+      box-shadow: 0 0 6px #ef4444;
+    }
+
+    .controls-row {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    select {
+      flex: 1;
+      background-color: #1a1d2e;
+      border: 1px solid #2d334d;
+      border-radius: 6px;
+      color: #f1f5f9;
+      font-size: 12px;
+      padding: 6px 8px;
+      outline: none;
+    }
+
+    .category-pills {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      background: #181c2e;
+      border: 1px solid #2d3452;
+      color: #93c5fd;
+      font-size: 10.5px;
+      font-weight: 500;
+      padding: 3px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .pill:hover {
+      background: #273155;
+      color: #ffffff;
+      border-color: #60a5fa;
+    }
+
+    .pill.cv-pill {
+      background: rgba(147, 51, 234, 0.15);
+      border-color: rgba(168, 85, 247, 0.4);
+      color: #d8b4fe;
+    }
+
+    .pill.cv-pill:hover {
+      background: #7e22ce;
+      color: #fff;
+    }
+
+    .image-preview-container {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      background: #161929;
+      border: 1px dashed #3b82f6;
+      border-radius: 6px;
+      padding: 6px 8px;
+      margin-bottom: 8px;
+    }
+
+    .image-preview-container img {
+      max-height: 40px;
+      border-radius: 4px;
+    }
+
+    .image-preview-info {
+      font-size: 11px;
+      color: #93c5fd;
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .btn-remove-img {
+      background: transparent;
+      border: none;
+      color: #ef4444;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    textarea {
+      width: 100%;
+      background-color: #161826;
+      border: 1px solid #2c3047;
+      border-radius: 6px;
+      color: #f1f5f9;
+      font-size: 12.5px;
+      padding: 8px 10px;
+      outline: none;
+      resize: vertical;
+      min-height: 65px;
+      line-height: 1.4;
+    }
+
+    textarea:focus {
+      border-color: #60a5fa;
+    }
+
+    .action-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 4px;
+    }
+
+    .attach-btn {
+      background: #1c2035;
+      border: 1px solid #2e3555;
+      color: #94a3b8;
+      font-size: 11px;
+      padding: 5px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .attach-btn:hover {
+      background: #283050;
+      color: #e2e8f0;
+    }
+
+    .toggle-btn {
+      background: #1c2035;
+      border: 1px solid #2e3555;
+      color: #94a3b8;
+      font-size: 11px;
+      padding: 5px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      user-select: none;
+      transition: all 0.2s ease;
+    }
+
+    .toggle-btn:hover {
+      background: #283050;
+      color: #e2e8f0;
+    }
+
+    .toggle-btn.active, .toggle-btn:has(input:checked) {
+      background: #1e3a8a;
+      border-color: #3b82f6;
+      color: #bfdbfe;
+    }
+
+    .toggle-btn input[type="checkbox"] {
+      accent-color: #3b82f6;
+      cursor: pointer;
+      width: 13px;
+      height: 13px;
+    }
+
+    .btn-submit {
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      border: none;
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 12.5px;
+      padding: 6px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: opacity 0.2s;
+    }
+
+    .btn-submit:hover {
+      opacity: 0.92;
+    }
+
+    .btn-submit:disabled {
+      background: #475569;
+      cursor: not-allowed;
+    }
+
+    .response-card {
+      margin-top: 10px;
+      background: #141624;
+      border: 1px solid #24283d;
+      border-radius: 8px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .response-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: #94a3b8;
+    }
+
+    .btn-copy {
+      background: transparent;
+      border: 1px solid #3b4261;
+      color: #cbd5e1;
+      font-size: 10.5px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .btn-copy:hover {
+      background: #293049;
+      color: #ffffff;
+    }
+
+    .response-content {
+      font-size: 12.5px;
+      line-height: 1.5;
+      color: #e2e8f0;
+      max-height: 240px;
+      overflow-y: auto;
+      word-break: break-word;
+    }
+
+    pre {
+      background: #090a10;
+      border: 1px solid #282c44;
+      border-radius: 6px;
+      padding: 8px;
+      margin: 6px 0;
+      overflow-x: auto;
+    }
+
+    code {
+      font-family: Consolas, monospace;
+      font-size: 11.5px;
+      color: #86efac;
+    }
+
+    .footer {
+      margin-top: auto;
+      padding-top: 8px;
+      font-size: 11px;
+      color: #64748b;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid #1a1e2e;
+    }
+
+    .footer a {
+      color: #818cf8;
+      text-decoration: none;
+    }
+
+    .image-result-card {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .image-result-preview {
+      width: 100%;
+      max-height: 280px;
+      object-fit: contain;
+      border-radius: 6px;
+      background: #090a10;
+      border: 1px solid #1e2438;
+    }
+
+    .img-actions-row {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .img-action-btn {
+      background: #1e2438;
+      color: #93c5fd;
+      border: 1px solid #2d3748;
+      border-radius: 4px;
+      padding: 4px 8px;
+      font-size: 11px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .img-action-btn:hover {
+      background: #2b3553;
+      color: #ffffff;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">
+      <h2>👁️ g4f AI & Vision Architect</h2>
+    </div>
+    <div class="status-badge" id="statusBadge">
+      <span class="status-dot" id="statusDot"></span>
+      <span id="statusText">Checking...</span>
+    </div>
+  </header>
+
+  <div class="controls-row">
+    <select id="modelSelect">
+      <option value="gpt-4o">gpt-4o (Vision & Code)</option>
+      <option value="claude-3.5-sonnet">claude-3.5-sonnet (Puter)</option>
+      <option value="deepseek-r1">deepseek-r1 (Reasoning)</option>
+      <option value="gemini-2.0-flash">gemini-2.0-flash (Fast Vision)</option>
+      <option value="llama-3.3-70b">llama-3.3-70b</option>
+      <option value="flux">🎨 flux (AI Image Generator)</option>
+    </select>
+  </div>
+
+  <div class="category-pills">
+    <button class="pill" style="background:#db2777; color:#fff;" data-prompt="/image Generate a realistic high-definition image of: ">🎨 Nano Banana 2 Image Gen</button>
+    <button class="pill cv-pill" style="background:#7c3aed; color:#fff;" data-prompt="Design and implement a complete Python Pipeline with OpenCV + SAM 2 (Segment Anything) + Diffusers SDXL/Flux Inpainting for adding/removing objects with mask preservation for: ">🎯 SAM + Inpainting Pipeline</button>
+    <button class="pill cv-pill" style="background:#9333ea; color:#fff;" data-prompt="Implement a PyTorch + Diffusers ControlNet structural conditioning pipeline (Canny Edge + Depth + Pose) preserving exact subject geometry and background for: ">📐 ControlNet Conditioning</button>
+    <button class="pill cv-pill" style="background:#4f46e5; color:#fff;" data-prompt="Implement a complete Super-Resolution and Quality Validation pipeline using Real-ESRGAN + OpenCV + SSIM quality metrics in Python for: ">🔍 Real-ESRGAN Super-Res</button>
+    <button class="pill cv-pill" data-prompt="Design and implement a complete OpenCV Preprocessing + PaddleOCR + YOLO + Validation Pipeline in Python for: ">📸 OCR & YOLO Pipeline</button>
+    <button class="pill" data-prompt="Explain this clearly with code examples:">💡 Explain Code</button>
+  </div>
+
+  <div class="image-preview-container" id="imagePreviewContainer">
+    <img id="imagePreview" src="" alt="Preview">
+    <span class="image-preview-info" id="imagePreviewName">image.png</span>
+    <button class="btn-remove-img" id="removeImgBtn" title="Remove image">×</button>
+  </div>
+
+  <div class="input-wrapper">
+    <textarea id="promptInput" placeholder="Ask AI, specify vision tasks, or paste code/OCR requirements..."></textarea>
+    
+    <div class="action-bar">
+      <div style="display: flex; gap: 6px; align-items: center;">
+        <label class="attach-btn">
+          <span>📷 Attach Image</span>
+          <input type="file" id="imageFileInput" accept="image/*" style="display: none;">
+        </label>
+        <label class="toggle-btn" id="webSearchToggleLabel" title="Enable live internet search & URL scraping">
+          <input type="checkbox" id="webSearchToggle" checked>
+          <span>🌐 Web Search</span>
+        </label>
+      </div>
+      <button class="btn-submit" id="sendBtn">
+        <span>⚡ Generate</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="response-card" id="responseCard" style="display: none;">
+    <div class="response-header">
+      <strong id="responseTitle">AI Output:</strong>
+      <button class="btn-copy" id="copyBtn">📋 Copy</button>
+    </div>
+    <div class="response-content" id="responseContent"></div>
+  </div>
+
+  <div class="footer">
+    <span id="serverLabel">Server: 127.0.0.1:1337</span>
+    <a href="options.html" target="_blank">⚙️ Settings</a>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
