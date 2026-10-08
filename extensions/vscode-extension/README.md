@@ -1,49 +1,33 @@
-# g4f VS Code AI Assistant Extension
+# 💻 VS Code AI Assistant Extension
 
-A ready-to-load VS Code Extension connecting your editor directly to your local `g4f` API server.
+**Developer:** **Sanjok Subedi**  
+**Repository:** [subediSanjok/Chatbot](https://github.com/subediSanjok/Chatbot)
+
+---
+
+## Overview
+
+A native VS Code extension built by **Sanjok Subedi** providing copilot assistance, codebase modification, and diff inspection powered by your local Chatbot AI server.
 
 ## Features
-- ⚡ **Local LLM Server Integration:** Connects to `http://127.0.0.1:1337/v1` (gpt-4o, claude-3.5-sonnet, deepseek-r1, gemini-2.0-flash, etc.).
-- 🚀 **Codex & Claude Code Codebase Implementation:** 
-  - **⚡ Apply to File:** Directly writes generated code into the target workspace file with a single click.
-  - **⚡ Auto-apply to Codebase:** Toggle on to automatically apply all proposed edits across your project files as soon as the model finishes generating.
-  - **🔍 Side-by-Side Diff Review:** Inspect code changes side-by-side in VS Code's native diff editor before applying.
-  - **🚀 Batch Workspace Application:** Apply multiple file changes across your codebase in one click.
-- 📁 **@workspace Scanning:** Scan key workspace files to give the AI full codebase architecture context.
-- ⌨️ **Shortcut:** Press `Ctrl+Alt+G` (or `Cmd+Alt+G` on macOS) to ask AI about your selected code.
-- 🖱️ **Editor Right-Click Menu:**
-  - **g4f AI: Explain Selected Code**
-  - **g4f AI: Refactor & Optimize Code**
-  - **g4f AI: Find & Fix Bugs**
-  - **g4f AI: Ask Anything / Code Helper**
-- 🎨 **Side-by-Side Chat Webview:** Real-time AI chat panel with file badges, one-click diff reviews, and code insertion.
+- ⚡ **Local LLM Gateway**: Connects to `http://127.0.0.1:1337/v1` without external telemetry.
+- 🚀 **Automated Codebase Modification**:
+  - **Apply to File**: Writes generated patches directly to targeted workspace files.
+  - **Side-by-Side Diff Review**: Review edits side-by-side using VS Code's native diff editor before applying.
+  - **Batch Multi-File Patching**: Apply architectural changes across multiple project files simultaneously.
+- 📁 **@workspace Scanning**: Context-aware scanning of repository structure for high-precision code completions.
+- ⌨️ **Global Shortcut**: Press `Ctrl+Alt+G` (or `Cmd+Alt+G` on macOS) to invoke the AI assistant.
+- 🎨 **Embedded Chat Webview**: Live chat panel supporting markdown rendering, syntax highlighting, and inline insertion.
 
----
-
-## How to Install and Run in VS Code
-
-### Option A: Immediate Testing (Run via Debugger)
-1. Open this folder in VS Code:
-   `c:\Users\HP\Desktop\chatbot\extensions\vscode-extension`
-2. Press **`F5`** on your keyboard (or click **Run -> Start Debugging**).
-3. A new **Extension Development Host** window will open with the extension loaded and active!
-
----
-
-### Option B: Permanent Install to your VS Code
-To make the extension permanently available across all your VS Code workspaces without compiling:
-
-1. Copy this folder (`extensions/vscode-extension`) to your VS Code extensions directory:
-   - **Windows:** `%USERPROFILE%\.vscode\extensions\g4f-vscode-assistant`
+## Installation
+1. Start the local server:
    ```powershell
-   xcopy /E /I "c:\Users\HP\Desktop\chatbot\extensions\vscode-extension" "%USERPROFILE%\.vscode\extensions\g4f-vscode-assistant"
+   python -m g4f --port 1337
    ```
-2. Restart VS Code. The extension is now permanently installed!
+2. In VS Code, open this folder (`extensions/vscode-extension`) and press **F5** to run in an Extension Development Host window.
+3. Or install permanently by copying this folder to:
+   `%USERPROFILE%\.vscode\extensions\g4f-vscode-assistant`
 
 ---
 
-## Prerequisite
-Ensure your local `g4f` server is running in the background:
-```powershell
-python -m g4f --port 1337
-```
+**Developed & Maintained by Sanjok Subedi**
