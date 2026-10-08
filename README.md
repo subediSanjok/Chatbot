@@ -12,8 +12,8 @@
 <br/>
 
 **Developer:** **subediSanjok Subedi**  
-**GitHub Profile:** [@subedisubediSanjok](https://github.com/subedisubediSanjok)  
-**Project Repository:** [subedisubediSanjok/Chatbot](https://github.com/subedisubediSanjok/Chatbot)
+**GitHub Profile:** [@subedisubedi](https://github.com/subediSanjok)  
+**Project Repository:** [subedisubedi/Chatbot](https://github.com/subediSanjok/Chatbot)
 
 ---
 
